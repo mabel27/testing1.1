@@ -10,7 +10,7 @@ var force = (function ()   {
     var loginURL = 'https://login.salesforce.com',
 
     // The Connected App client Id. Default app id provided - Not for production use.
-        appId = '3MVG9KI2HHAq33RyxiQvWKh1_dXf93uPDkDWUMddH0T3AoOHR_ZZIqL.eM9Y.lbvANgewQGYkd3Sjzs_EkVzg',
+        appId = '3MVG9KI2HHAq33RyxiQvWKh1_dQ1Io6io8sMu2mJ9z1l3yomNnG8k2krPHQCfXYcDrD5g0l0NjVBtA1P5DMNd',
 
     // The force.com API version to use. Default can be overriden in login()
         apiVersion = 'v32.0',
