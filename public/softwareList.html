@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Software List</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="js/javascript.js"></script>
+    <style>
+        body {
+            padding-top: 60px;
+        }
+    </style>
+    <script>
+        $(function() {
+   
+            $.ajax({ // ajax call starts
+            url: '/softwareName', 
+            type:"GET",
+            dataType: 'json', // Choosing a JSON datatype
+            contentType: "application/json; charset=utf-8",
+           
+            success: function(data) {
+
+                var info = data.rows;
+                data.rows.forEach(function(row){
+                $('#softwareName').append('<option id="sfid" value="'+row.sfid+'">' + row.name +'</option>');
+                console.log(data);  
+                    
+          });
+                  
+            }
+        });
+            
+            $("#updateSoftware").submit(function(event) {
+                event.preventDefault();
+
+                var errorMessage = $("#errorMessage");
+                var error = $("#error");
+                error.hide();
+
+                $("#message").hide();
+
+                var sfid = $("#sfid").val();
+                var number__c = $("#number__c").val();
+                
+                if (sfid.length == 0 || number__c.length == 0 ) {
+                    errorMessage.text("This fields are required.");
+                    error.show();
+                }
+                else {
+                    $.ajax({
+                        url: event.target.action,
+                        method: event.target.method,
+                        data: JSON.stringify({
+                            sfid: sfid,
+                            number__c: number__c
+                        }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(data) {
+                            $("#sfid").val("");
+                            $("#number__c").val("");
+                            $("#messageMessage").text("IT Software License Updated");
+                            $("#message").show();
+                        },
+                        error: function(err) {
+                            errorMessage.text(err.responseJSON.error);
+                            error.show();
+                        }
+                    })
+                }
+            });       
+});
+           
+    </script> 
+    
+    
+</head>
+    
+    
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Software List</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+    <div class="row">
+        <form id="updateSoftware" action="/update" method="POST" style="width: 600px">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Update the Software List</h3>
+                </div>
+                <div class="panel-body">
+               <div class="form-group">
+                        <label for="subscription__c">Software with a non-0 license </label>
+                        <span class="glyphicon glyphicon-list-alt"></span>
+                        <select class="software form-control" id="softwareName"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="number"># of Licenses</label>
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        <input type="text" class="form-control" id="number__c" placeholder="# of Licenses" required >
+                    </div>
+                    
+                                    <div class="panel-footer">
+                    <div id="message" class="alert alert-info" role="alert" style="display: none;">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        <span id="messageMessage"></span>
+                    </div>
+                    <div id="error" class="alert alert-danger" role="alert" style="display: none;">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                        <span id="errorMessage"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+                </div>
+            </div>
+        </form>
+    </div>
+        </div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+body {
+            padding-top: 60px;
+        }
+.btn {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 0;
+  background-color: #16214D;
+  color: white;
+}
+.btn:hover {
+  background-color: #44C7F4;
+}
+.btn:focus {
+  outline: none !important;
+}
+.btn.btn-lg {
+  padding: 20px 30px;
+}
+.btn:disabled {
+  background-color: #333;
+  color: #666;
+}
